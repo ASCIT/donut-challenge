@@ -1,0 +1,22 @@
+h1 {
+	color: blue;
+	text-align: center;
+}
+
+body {
+	background-image: url("http://cliparts.co/cliparts/zTX/5G7/zTX5G7ozc.jpg");
+	text-align: center;
+}
+
+body a {
+	font-family: Vivaldi;
+	font-size: 40px;
+	text-align: center;
+	color: green;
+	text-decoration: none;
+}
+
+h3 {
+	color: purple;
+	font-family: sans serif;
+}
