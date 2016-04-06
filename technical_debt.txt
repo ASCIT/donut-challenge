@@ -1,0 +1,14 @@
+Technical Debt Log:
+	**0001: enemyDeadSound global
+		Ideal design is to include the enemyDeadSound inside the enemy object.
+		However, there was a bug where it would often not play if we were also trying
+		to delete it. Added a global hacky work-around. 
+		Status: Still around
+
+	**0002: Sound object includes Music object.
+		Ideal design is to have both derived from the same object.
+		The current design was just a little hack to get the application put together in
+		time. As JavaScript doesn't use typical OOP design patterns as far as I'm aware and
+		I don't usually program anything but scripts in JS, this was my hacky inheritance.
+		Status: Still around
+		 
