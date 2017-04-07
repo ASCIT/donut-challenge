@@ -13,7 +13,7 @@
 - If you're not comfortable with web development, feel free to use C++, Java, Python, or whatever you're comfortable with.
 
 <h2>Bonus points</h2>
-- Using Python Flask specifically (or prove that your framework is better)
+- Building a backend with Python Flask specifically
 - Having clean modular code that shows an understanding of closures and functional programming
 
 <h2>Submission</h2>
