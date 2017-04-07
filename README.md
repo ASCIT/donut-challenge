@@ -8,12 +8,12 @@
 <h2>Requirements</h2>
 - Use every sound in the ```music/``` folder.
 - Engage the user with an exciting HTML5 experience.
-- Use a modern Javascript framework just as React.js, or have clean vanilla JS.
+- You may use a modern Javascript framework like React.js, or have clean vanilla JS.
 - Be able to explain every design choice from module layout to HTML organization.
 - If you're not comfortable with web development, feel free to use C++, Java, Python, or whatever you're comfortable with.
 
 <h2>Bonus points</h2>
-- Using React.js specifically (or prove that your framework is better)
+- Using Python Flask specifically (or prove that your framework is better)
 - Having clean modular code that shows an understanding of closures and functional programming
 
 <h2>Submission</h2>
