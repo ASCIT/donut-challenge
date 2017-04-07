@@ -14,6 +14,7 @@
 
 <h2>Bonus points</h2>
 - Building a backend with Python Flask specifically
+- Great Design / UI / UX
 - Having clean modular code that shows an understanding of closures and functional programming
 
 <h2>Submission</h2>
