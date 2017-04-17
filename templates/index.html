@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='index.css')}}"></link>
+{% endblock %}
+{% block play %}
+<table>
+	<tr>
+	{% for i in range((music_files_number/2)|int) %}
+		<td><a href="/{{ music_files[i] }}"><img src="static/icons/{{ music_files[i][:-4] }}.jpg"/> </a></td>
+	{% endfor %}
+	</tr>
+	<tr>
+	{% for i in range((music_files_number/2)|int,music_files_number-1) %}
+		<td><a href="/{{ music_files[i] }}"><img src="static/icons/{{ music_files[i][:-4] }}.jpg"/> </a></td>
+	{% endfor %}
+	</tr>
+	<tr>
+		<td></td>
+		<td><a href="/{{ music_files[music_files_number-1] }}"><img src="static/icons/{{ music_files[music_files_number-1][:-4] }}.jpg"/> </a></td>
+		<td></td>
+	</tr>
+</table>
+<a href="http://donut.caltech.edu" id="donut" style="position:absolute;top:30px;left:62%;top:50%;" target="_blank"><img src="static/icons/donut.png" style="width:50px;height:50px;"/></a>
+<script type="text/javascript" src="{{ url_for('static', filename='reng.js')}}"></script>
+{% endblock %}
