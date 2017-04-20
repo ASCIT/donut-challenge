@@ -12,9 +12,10 @@
 .hidden{
     visibility: hidden;
 }
-.square{
-    width: 100px;
-    height: 100px;
+#player{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
     position: absolute; top:140px; left:140px;
     background: red;
 }
@@ -24,15 +25,22 @@
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
 }
+.minion{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-color: yellow
+}
 </style>
 <script src="jquery-3.2.1.min.js"></script>
 <script src="temp.js"></script>
 <body>
-<p class = hidden>So you've decided to play?</p>
+<p class = hidden>Press space to attack</p>
 <div class = centered id = "start_box">
     <p> Welcome to the game </p>
     <button onclick = "beginGame()" type="button">Let's Begin!</button>
 </div>
-<div class = "square hidden" id = "test" ></div>
+<div class = "hidden" id = "player" > You </div>
 </body>
 </html>
