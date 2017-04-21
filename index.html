@@ -35,12 +35,23 @@
 .game_over{
     visibility: hidden
 }
+.victory{
+    visibility: hidden
+}
+.boss{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    position: absolute; top: 100px; left: 100px;
+    visibility: hidden;
+    background-color: black
+}
 </style>
 <script src="jquery-3.2.1.min.js"></script>
 <script src="temp.js"></script>
 <body>
 <p class = hidden>Press space to attack from a distance, but don't touch
-the circles!</p>
+the circles! The circles will grunt when hit</p>
 <div class = centered id = "start_box">
     <p> Welcome to the game </p>
     <button onclick = "beginGame()" type="button">Let's Begin!</button>
@@ -48,6 +59,10 @@ the circles!</p>
 <div class = "centered game_over" id = "game_over" >
     <p> Game Over! </p>
 </div>
+<div class = "centered victory" id = "victory">
+    <p> You Win! </p>
+</div>
 <div class = "hidden" id = "player" > You </div>
+<div class = boss id = "boss"></div>
 </body>
 </html>

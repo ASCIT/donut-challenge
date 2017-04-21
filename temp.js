@@ -45,11 +45,15 @@ function spawnMinions(number){
 
 function beginGame(){
     var numOfMinions = 6;
+    var numOfAliveMinions = numOfMinions;
     spawnMinions(numOfMinions);
 
     var y = $('#player');
     playerWidth = y.width(), playerHeight = y.height();
     var minionWidth = minions[0].offsetWidth;
+    var bossWidth = document.getElementById("boss").offsetWidth;
+
+    var bossMode = false;
 
     $(".hidden").css("visibility", "visible");
     y.css("visibility", "visible");
@@ -58,6 +62,7 @@ function beginGame(){
     var damageAudio = new Audio('music/damaged.mp3');
     var cheerAudio = new Audio('music/cheer.mp3')
     var gameOverAudio = new Audio('music/respectfully_resigned.wav');
+    var bossAudio = new Audio('music/fantasy_boss.mp3');
     refreshId = setInterval(function(){
         var center = findCenter($('#player'));
         y.css({
@@ -68,16 +73,40 @@ function beginGame(){
                 return calcNewValue(oldValue, 38, 40, maxValueTop - playerHeight); 
             } 
         });
+        if (!bossMode && numOfAliveMinions == 0) {
+            adventureAudio.pause();
+            bossAudio.play();
+            $(".boss").css("visibility", "visible");
+            minionWidth = bossWidth;
+            minions = [];
+            minions.push(document.getElementById("boss"));
+            minionHp = [50];
+            minionXSpeeds = [7];
+            minionYSpeeds = [7];
+            bossMode = true;
+        }
+        if (numOfAliveMinions < 0) {
+            $("#victory").css("visibility", "visible");
+            adventureAudio.pause();
+            bossAudio.pause();
+            clearViews();
+            clearInterval(refreshId);;
+        }
         if(keysPressed[32]){
             attackAudio.play();
             for (i = 0; i < minions.length; i++) {
                 var attackDist = playerWidth + minionWidth;
                 var minionCenter = findCenter($('#minion' + i));
+                if (bossMode) minionCenter = findCenter($("#boss"));
                 if(distance(minionCenter, center) < attackDist){
                     minionHp[i] -= 1;
                     if(minionHp[i] >= 0) damageAudio.play();
                     if(minionHp[i] == 0){
+                        numOfAliveMinions -= 1;
                         $('#minion' + i).css("visibility", "hidden");
+                        if (bossMode) {
+                            $('#boss').css("visibility", "hidden");    
+                        }
                         cheerAudio.play();
                     }
                 }
@@ -86,9 +115,11 @@ function beginGame(){
         var touchDist = (playerWidth + minionWidth)/2;
         for (i = 0; i < minions.length; i ++) {
             var minionCenter = findCenter($('#minion' + i));
+            if (bossMode) minionCenter = findCenter($('#boss'));
             if(distance(minionCenter, center) < touchDist && minionHp[i] > 0){
                 $('.game_over').css("visibility", "visible")
-                audio.pause();
+                adventureAudio.pause();
+                bossAudio.pause();
                 gameOverAudio.play(); 
                 clearViews();
                 clearInterval(refreshId);
@@ -114,14 +145,15 @@ function beginGame(){
             minions[i].style.top = String(newY - minionWidth/2) + 'px';
         }
     }, 30);
-    var audio = new Audio('music/adventure_awaits.mp3');
-    audio.play();
+    var adventureAudio = new Audio('music/adventure_awaits.mp3');
+    adventureAudio.play();
     document.getElementById("start_box").style.display = 'none';
 }
 
 function clearViews() {
     $('.minion').css("visibility","hidden");
     $('.hidden').css("visibility","hidden");
+    $('.boss').css("visibility", "hidden");
 }
 
 function distance(c1, c2){
