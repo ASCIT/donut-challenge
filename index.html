@@ -32,14 +32,21 @@
     position: absolute;
     background-color: yellow
 }
+.game_over{
+    visibility: hidden
+}
 </style>
 <script src="jquery-3.2.1.min.js"></script>
 <script src="temp.js"></script>
 <body>
-<p class = hidden>Press space to attack</p>
+<p class = hidden>Press space to attack from a distance, but don't touch
+the circles!</p>
 <div class = centered id = "start_box">
     <p> Welcome to the game </p>
     <button onclick = "beginGame()" type="button">Let's Begin!</button>
+</div>
+<div class = "centered game_over" id = "game_over" >
+    <p> Game Over! </p>
 </div>
 <div class = "hidden" id = "player" > You </div>
 </body>
