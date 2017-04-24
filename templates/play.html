@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='play.css')}}"></link>
+{% endblock %}
+{% block play %}
+
+<h3>{{ title }}</h3>
+<img src="static/icons/{{ music_file[:-4] }}.jpg" class="center">
+<br>
+<audio controls autoplay class="center">
+	<source src="static/music/{{ music_file }}">
+	Your browser does not support this audio format.
+</audio>
+<br>
+<h3><a href="/">BACK</a></h3>
+{% endblock %}
