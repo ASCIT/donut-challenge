@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<style>
+.centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 70px 0;
+    text-align: center;
+    transform: translate(-50%, -50%)
+}
+.hidden{
+    visibility: hidden;
+}
+#player{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    position: absolute; top:140px; left:140px;
+    background: red;
+}
+.animation{
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.minion{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    background-color: yellow
+}
+.game_over{
+    visibility: hidden
+}
+.victory{
+    visibility: hidden
+}
+.boss{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    position: absolute; top: 100px; left: 100px;
+    visibility: hidden;
+    background-color: black
+}
+</style>
+<script src="jquery-3.2.1.min.js"></script>
+<script src="temp.js"></script>
+<body>
+<p class = hidden>Press space to attack from a distance, but don't touch
+the circles! The circles will grunt when hit</p>
+<div class = centered id = "start_box">
+    <p> Welcome to the game </p>
+    <button onclick = "beginGame()" type="button">Let's Begin!</button>
+</div>
+<div class = "centered game_over" id = "game_over" >
+    <p> Game Over! (If this happened from the start just reload)</p>
+</div>
+<div class = "centered victory" id = "victory">
+    <p> You Win! </p>
+</div>
+<div class = "hidden" id = "player" > You </div>
+<div class = boss id = "boss"></div>
+</body>
+</html>
