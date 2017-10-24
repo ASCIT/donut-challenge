@@ -3,7 +3,8 @@ var myFishSpeed = 5;
 var otherFishes = [];
 var otherFishesInterval = 300;
 var backgroundPic;
-var backgroundSpeed = -3;
+var backgroundSpeed = -2;
+var otherFishSpeed = -3;
 var bgm;
 
 /* ============================= GAME AREA ================================== */
@@ -11,8 +12,8 @@ var bgm;
 function startGame() {
     // myFish = new component(30, 30, "red", 10, 120);
 	myFish = new component(200, 100, "images/fish.png", 10, 320-100/2, "image");
-	backgroundPic = new component(1138, 640, "images/ocean.png", 0, 0, "background");
-	backgroundPic.speedX = -1;
+	backgroundPic = new component(1138, 640, "images/ocean.jpg", 0, 0, "background");
+	backgroundPic.speedX = backgroundSpeed;
 	bgm = new sound("music/adventure_awaits.mp3");
 	bgm.play();
     myGameArea.start();
@@ -46,6 +47,13 @@ var myGameArea = {
 }
 
 function updateGameArea() {
+	for (var i=0; i<otherFishes.length; i++) {
+		if (fishCrashWith(otherFishes[i])) {
+			setTimeOut(myGameArea.stop(), 1000);
+			// myGameArea.stop();
+			break;
+		}
+	}
 	myGameArea.frameNo += 1;
     myGameArea.clear();
 	// Update background
@@ -65,8 +73,8 @@ function updateGameArea() {
 		myGameArea.frameNo % otherFishesInterval == 0) {
 		var x = myGameArea.canvas.width;
         var y = Math.floor(Math.random()*(myGameArea.canvas.height - 40)+20);
-		newFish = new component(20, 20, "green", x, y);
-		newFish.speedX = backgroundSpeed;
+		newFish = new component(80, 62, "images/goldfish.png", x, y, "image");
+		newFish.speedX = otherFishSpeed;
         otherFishes.push(newFish);
 		
 	}
@@ -151,8 +159,9 @@ function fishCrashWith(thing) {
     var thingTop = thing.y;
     var thingBottom = thing.y + (thing.height);
 	
-    if ((myBottom > thingTop) || (myTop > thingBottom) || 
-	    (myRight > thingLeft) || (myLeft < thingRight)) {
+    // if ((myBottom > thingTop) || (myTop > thingBottom) ||
+    // 	    (myRight > thingLeft) || (myLeft < thingRight)) {
+	if (!((myBottom < thingTop) || (myTop > thingBottom) || (myRight < thingLeft) || (myLeft > thingRight))) {
 		 return true;
     }
     return false;
