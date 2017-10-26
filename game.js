@@ -42,10 +42,6 @@ function startGame() {
     myGameArea.start();
 }
 
-function preStartScene() {
-	
-}
-
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
