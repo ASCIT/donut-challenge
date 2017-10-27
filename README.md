@@ -1,5 +1,5 @@
 # The Donut Challenge (Jenny's submission)
-A fun HTML5 game of fishes that I made in the span of 3 days for the [ASCIT website](http://donut.caltech.edu) devteam application!
+A fun HTML5 game of fishes that I made in the span of 3 days for the [ASCIT website](http://donut.caltech.edu) devteam application! Website at http://107.170.208.38/donut-challenge/
 
 ### How to play:
 Use arrow keys to control your fish. Don't go outside of boundaries. Otherwise, basically just follow the directions.
