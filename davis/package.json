@@ -1,0 +1,26 @@
+{
+  "name": "davis-donut-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodejs server.js"
+  },
+  "description": "My submission for the donut coding challenge",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "expressjs": "^1.0.1",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davistardif/donut-challenge.git"
+  },
+  "author": "Davis Tardif",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davistardif/donut-challenge/issues"
+  },
+  "homepage": "https://github.com/davistardif/donut-challenge#readme"
+}
