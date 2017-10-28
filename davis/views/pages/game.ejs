@@ -1,0 +1,64 @@
+<% const POOL_SIZE = 4 %>
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>DJ Game</title>
+  </head>
+  <body>
+  <h2>Instructions</h2>
+  <p>You can use the drum kit using your keyboard <br>
+  Controls:</p>
+  <ul>
+  <li>b - bass drum</li>
+  <li>h - hi-hat</li>
+  <li>s - snare drum</li>
+  <li>c - crash cymbal</li>
+  </ul>
+  <p>You can also play the following samples by clicking the play button</p><br>
+<h2>Samples</h2>
+    <% songs.forEach(function (song){ %>
+    <% if (song.startsWith("drums_")) { %>
+    <% for (var i = 0; i < POOL_SIZE; i++) { %>
+    <audio id="<%= song.substr(0, song.lastIndexOf(".")) + i %>">
+    <source src= <%= '/music/' + song %> type="audio/mp3">
+    </audio>
+    <% } } else { %>
+    <h4><%= song.substr(0, song.lastIndexOf(".")) %> </h4>
+    <audio controls preload="none">
+      <source src= <%= '/music/' + song %> type="audio/mp3">
+    </audio>
+     <% } %>
+    <% if (!song.startsWith("drums_")) { %>
+    <br>
+    <a href= <%= '/music/' + song%> download>Download</a>
+    <a href= <%= '/stats/' + song %> >Stats</a><br>
+    <% } }); %>
+    <script>
+      document.addEventListener('keydown', function(e) {
+      if (e.code == "KeyB") {
+      sound = getAvailableClip("drums_kick");
+      }
+      else if (e.code == "KeyH") {
+      sound = getAvailableClip("drums_hat");
+      }
+      else if (e.code == "KeyS") {
+      sound = getAvailableClip("drums_snare");
+      }
+      else if (e.code == "KeyC") {
+      sound = getAvailableClip("drums_crash");
+      }
+      sound.play();
+});
+//try to return a clip thats ready to go from a pool of clips
+function getAvailableClip(baseId) {
+for (var i = 0; i < <%= POOL_SIZE %>; i++) {
+var clip = document.getElementById(baseId + i);
+                    if (clip.ended || clip.paused){
+                    return clip;
+                    }
+}
+return document.getElementById(baseId + 0);
+}
+    </script>
+  </body>
+</html>
