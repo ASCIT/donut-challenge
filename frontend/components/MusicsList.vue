@@ -7,7 +7,7 @@
 		<md-list v-if='musics'>
 			<md-list-item v-for='music in musics' :key='music.url'>
 				<md-button @click='selected(music)'>
-					{{ music.display }}
+					{{ music.name }}
 				</md-button>
 			</md-list-item>
 		</md-list>
@@ -20,20 +20,23 @@
 	import Component from 'vue-class-component'
 	import {Musics} from '../../api'
 	import apiFetch from '../api-fetch'
+	import {Music} from '../music-types'
+
+	const MUSIC_DIR = '/music/'
 
 	interface Sidenav extends Vue {
 		open(): void
 		close(): void
 	}
 
-	interface Music {
-		url: string
-		display: string
-	}
-
+	const capitalize = (str: string): string =>
+		str[0].toUpperCase() + str.substring(1).toLowerCase()
 	function displayName(music: string): string {
-		const title = music.substring(0, music.lastIndexOf('.'))
-		return title.replace(/_/g, ' ')
+		return music
+			.substring(0, music.lastIndexOf('.')) //remove extension
+			.split('_')
+			.map(capitalize)
+			.join(' ')
 	}
 
 	@Component({
@@ -46,8 +49,8 @@
 			apiFetch({url: '/api/list-musics'})
 				.then((musics: Musics) =>
 					this.musics = musics.map(music => ({
-						url: music,
-						display: displayName(music)
+						url: MUSIC_DIR + music,
+						name: displayName(music)
 					}))
 				)
 				.catch(message => alert('Error occurred: ' + message))
@@ -57,7 +60,7 @@
 		}
 		selected(music: Music) {
 			(this.$refs.sidenav as Sidenav).close()
-			this.$emit('selected', music.url)
+			this.$emit('selected', music)
 		}
 	}
 </script>

@@ -8,17 +8,21 @@
 		</md-toolbar>
 
 		<musics-list ref='musics' @selected='musicSelected'></musics-list>
+		<editor ref='editor'></editor>
 	</div>
 </template>
 
 <script lang='ts'>
 	import Vue from 'vue'
 	import Component from 'vue-class-component'
+	import {Music} from '../music-types'
+	import Editor from './Editor.vue'
 	import MusicsList from './MusicsList.vue'
 
 	@Component({
 		name: 'app',
 		components: {
+			'editor': Editor,
 			'musics-list': MusicsList
 		}
 	})
@@ -26,8 +30,8 @@
 		showMusics() {
 			(this.$refs.musics as MusicsList).open()
 		}
-		musicSelected(music: string) {
-			console.log('Selected', music)
+		musicSelected(music: Music) {
+			(this.$refs.editor as Editor).addMusic(music)
 		}
 	}
 </script>
