@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const Uglify = require('uglifyjs-webpack-plugin')
 
 module.exports = {
 	entry: './frontend/index.ts',
@@ -56,7 +57,7 @@ if (process.env.NODE_ENV === 'production') {
 				NODE_ENV: '"production"'
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin({
+		new Uglify({
 			sourceMap: true,
 			compress: {
 				warnings: false

@@ -293,7 +293,7 @@
 
 	div.second-mark
 		position: absolute
-		width: 50px
+		width: 100px
 
 	div.occupied
 		position: relative
