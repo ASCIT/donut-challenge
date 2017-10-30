@@ -1,0 +1,4 @@
+node_modules
+api/**/*.js
+server/**/*.js
+public/dist
