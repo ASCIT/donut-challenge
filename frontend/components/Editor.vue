@@ -8,7 +8,7 @@
 				<md-icon>zoom_out</md-icon>
 			</md-button>
 		</div>
-		<div class='snippet-flex' v-if='snippets.length'>
+		<div class='snippet-flex'>
 			<div class='tracklist'>
 				<md-list>
 					<md-list-item class='snippet-height'>
@@ -17,8 +17,16 @@
 								{{ playing ? 'pause' : 'play_arrow' }}
 							</md-icon>
 						</md-button>
+						<md-button class='md-icon-button' @click='getSerialized'>
+							<md-icon>content_copy</md-icon>
+							<md-tooltip>Copy to clipboard</md-tooltip>
+						</md-button>
+						<md-button class='md-icon-button' @click='importSerialized'>
+							<md-icon>content_paste</md-icon>
+							<md-tooltip>Paste from clipboard</md-tooltip>
+						</md-button>
 					</md-list-item>
-					<md-list-item class='snippet-height' v-for='(snippet, index) in snippets' :key='snippet.name'>
+					<md-list-item class='snippet-height' v-for='(snippet, index) in snippets' :key='snippet.id'>
 						<span @click='editName(snippet)'>{{ snippet.name }}</span>
 						<md-spinner md-indeterminate :md-size='40' class='md-warn' v-if='snippet.end === UNKNOWN_END'></md-spinner>
 						<md-button class='md-icon-button' @click='deleteSnippet(index)'>
@@ -29,7 +37,7 @@
 			</div>
 			<div class='snippets' @click='endAdjusting' @mousemove='mousemove'>
 				<md-list>
-					<md-list-item class='snippet-height'>
+					<md-list-item class='snippet-height' v-if='snippets.length'> <!--rendering errors if run with no snippets-->
 						&nbsp; <!--included because empty list item throws errors-->
 						<div
 							class='second-mark'
@@ -68,7 +76,7 @@
 <script lang='ts'>
 	import Vue from 'vue'
 	import Component from 'vue-class-component'
-	import {Music, Snippet} from '../music-types'
+	import {Music, Snippet, serializeSnippets, deserializeSnippets} from '../music-types'
 
 	const ESCAPE = 27 //ASCII character code
 	const DEFAULT_PIXELS_PER_SECOND = 100
@@ -135,6 +143,8 @@
 			this.snippets.splice(index, 1)
 		}
 		loaded(snippet: Snippet, event: Event) {
+			if (snippet.length !== UNKNOWN_END) return
+
 			snippet.end = snippet.length = (event.target as HTMLAudioElement).duration
 		}
 		makeGradient({start, end, length}: Snippet) {
@@ -248,6 +258,18 @@
 		}
 		editName(snippet: Snippet) {
 			snippet.name = prompt('New name', snippet.name) || snippet.name
+		}
+		getSerialized() {
+			const serialized = serializeSnippets(this.snippets)
+			prompt('Copy this text', serialized)
+		}
+		importSerialized() {
+			try {
+				const serialized = prompt('Paste the text')
+				if (serialized === null) return
+				this.snippets = deserializeSnippets(serialized)
+			}
+			catch (e) { alert('Could not interpret text') }
 		}
 	}
 </script>
