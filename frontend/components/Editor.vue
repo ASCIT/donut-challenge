@@ -82,10 +82,18 @@
 	const DEFAULT_PIXELS_PER_SECOND = 100
 	const ZOOM_FACTOR = 2
 	const DEFAULT_PIXELS_BETWEEN_MARKS = 100
+	/**
+	 * The value used for the `length` and `end` properties
+	 * of a `Snippet` before its audio file has been loaded
+	 */
 	const UNKNOWN_END = Infinity
 	type RGB = [number, number, number]
 	const COLOR_START: RGB = [244, 67, 54], COLOR_END: RGB = [3, 169, 244]
 
+	/**
+	 * Creates a color on a linear scale between
+	 * `COLOR_START` and `COLOR_END`
+	 */
 	function blendFraction(fraction: number): string {
 		const result: RGB = [0, 0, 0]
 		for (let i = 0; i < result.length; i++) {
@@ -107,13 +115,42 @@
 	})
 	export default class Editor extends Vue {
 		UNKNOWN_END = UNKNOWN_END
+		/**
+		 * The snippets in the editor
+		 */
 		snippets: Snippet[] = []
-		snippetNumber = 1 //the number of snippets added so far, used to label them
+		/**
+		 * The number of snippets added so far;
+		 * used to label them
+		 */
+		snippetNumber = 1
+		/**
+		 * The number of pixels corresponding to
+		 * one second in the editor (zoom factor)
+		 */
 		pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND
+		/**
+		 * The current snippet and property
+		 * being adjusted by mouse,
+		 * or `null` if none currently is
+		 */
 		adjusting: Adjusting | null = null
+		/**
+		 * Whether the tracks are currently playing
+		 */
 		playing = false
+		/**
+		 * Uniquely identifies a command to play all tracks
+		 * so it can cancel itself when play button
+		 * is pressed again
+		 */
 		playingToken: object | null = null
-		timeSincePlaying = 0 //arbitrary value; will be set before being used
+		/**
+		 * Number of seconds passed since started playing;
+		 * 0 is an arbitrary value and will be overwritten
+		 * before the value is used
+		 */
+		timeSincePlaying = 0
 
 		mounted() {
 			window.addEventListener('keydown', e => {
@@ -122,11 +159,13 @@
 					const {snippet, attribute, initialValue} = this.adjusting
 					if (attribute === 'start') snippet.offset -= snippet.start - initialValue //undo offset change too
 					;(snippet as any)[attribute] = initialValue
-					this.adjusting = null
+					this.endAdjusting()
 				}
 			})
 		}
-
+		/**
+		 * Adds a snippet that plays all of a given track
+		 */
 		addMusic({name, url}: Music) {
 			this.snippets.push({
 				id: this.snippetNumber,
@@ -139,25 +178,47 @@
 			})
 			this.snippetNumber++
 		}
+		/**
+		 * Removes a snippet, given its index in `snippets`
+		 */
 		deleteSnippet(index: number) {
 			this.snippets.splice(index, 1)
 		}
+		/**
+		 * Event handler for when snippet audio has loaded
+		 */
 		loaded(snippet: Snippet, event: Event) {
 			if (snippet.length !== UNKNOWN_END) return
 
 			snippet.end = snippet.length = (event.target as HTMLAudioElement).duration
 		}
+		/**
+		 * Gets gradient to show on snippet,
+		 * where red is the start of the track
+		 * and blue is the end (shows current trimming)
+		 */
 		makeGradient({start, end, length}: Snippet) {
 			const startColor = blendFraction(start / length)
 			const endColor = blendFraction(end / length)
 			return 'linear-gradient(to right, ' + startColor + ', ' + endColor + ')'
 		}
+		/**
+		 * Decreases the number of seconds shown at a time
+		 */
 		zoomIn() {
 			this.pixelsPerSecond *= ZOOM_FACTOR
 		}
+		/**
+		 * Increases the number of seconds shown at a time
+		 */
 		zoomOut() {
 			this.pixelsPerSecond /= ZOOM_FACTOR
 		}
+		/**
+		 * Begins adjusting a certain attribute
+		 * of a given snippet, supplied the
+		 * initial mouse position
+		 */
 		adjust(snippet: Snippet, attribute: AdjustableAttribute, event: MouseEvent) {
 			if (this.adjusting === null) {
 				this.adjusting = {
@@ -170,11 +231,18 @@
 			}
 			else this.endAdjusting()
 		}
+		/**
+		 * Stops adjusting
+		 */
 		endAdjusting() {
 			this.adjusting = null
 		}
+		/**
+		 * Handler for mouse movement while adjusting
+		 */
 		mousemove(event: MouseEvent) {
 			if (this.adjusting === null) return
+
 			const {snippet, attribute, initialX, initialValue} = this.adjusting
 			let newValue = initialValue + (event.clientX - initialX) / this.pixelsPerSecond
 			switch (attribute) {
@@ -196,35 +264,64 @@
 			}
 			(snippet as any)[attribute] = newValue
 		}
+		/**
+		 * Converts seconds position to CSS pixel distance
+		 */
 		toPixels(seconds: number) {
 			return String(seconds * this.pixelsPerSecond) + 'px'
 		}
+		/**
+		 * Gets the latest end time of the snippets
+		 */
 		get endTime() {
 			return Math.max(
 				...this.snippets.map(({offset, start, end}) => offset + end - start)
 			)
 		}
-		get secondDiff() { //difference in seconds between time marks, aiming for set distance
+		/**
+		 * Gets the difference in seconds between time marks
+		 * so that a set distance on screen is displayed between marks;
+		 * rounds to a power of `ZOOM_FACTOR`
+		 */
+		get secondDiff() {
 			const targetDiff = DEFAULT_PIXELS_BETWEEN_MARKS / this.pixelsPerSecond
 			return ZOOM_FACTOR ** Math.round(Math.log(targetDiff) / Math.log(ZOOM_FACTOR))
 		}
+		/**
+		 * Gets the number of time marks to show
+		 */
 		get secondDivs() {
 			if (this.endTime === UNKNOWN_END) return 0
 			return Math.ceil(this.endTime / this.secondDiff)
 		}
+		/**
+		 * Gets a string by which to reference
+		 * the `audio` element associated with a snippet
+		 */
 		getAudioRef(snippet: Snippet) {
 			return 'audio' + String(snippet.id)
 		}
+		/**
+		 * Gets the `audio` element associated with a snippet
+		 */
 		getPlayer(snippet: Snippet) {
 				const playerArray = this.$refs[this.getAudioRef(snippet)] as HTMLAudioElement | HTMLAudioElement[]
 				return playerArray instanceof Array ? playerArray[0] : playerArray
 		}
+		/**
+		 * Updates `timeSincePlaying` based on the current time;
+		 * calls itself again after a short interval
+		 */
 		updateTimeSincePlaying(start: Date, playingToken: object) {
 			if (!this.playing || this.playingToken !== playingToken) return
 
 			this.timeSincePlaying = (new Date().getTime() - start.getTime()) / 1000
 			setTimeout(() => this.updateTimeSincePlaying(start, playingToken), 10)
 		}
+		/**
+		 * Toggles between whether the player
+		 * is playing or paused
+		 */
 		togglePlaying() {
 			this.playing = !this.playing
 			if (this.playing) { //now playing
@@ -256,13 +353,23 @@
 				for (const snippet of this.snippets) this.getPlayer(snippet).pause()
 			}
 		}
+		/**
+		 * Prompts for a new name for a snippet;
+		 * uses old name if cancelled
+		 */
 		editName(snippet: Snippet) {
 			snippet.name = prompt('New name', snippet.name) || snippet.name
 		}
+		/**
+		 * Gives user base-64 text of serialized snippets
+		 */
 		getSerialized() {
 			const serialized = serializeSnippets(this.snippets)
 			prompt('Copy this text', serialized)
 		}
+		/**
+		 * Takes base-64 text and deserializes snippets
+		 */
 		importSerialized() {
 			try {
 				const serialized = prompt('Paste the text')
