@@ -1,0 +1,94 @@
+
+*{
+	margin:0;
+	padding:0;
+	border:none;
+	outline:none;
+}
+
+body{
+	font-family:Comic Sans MS;
+	font-size:13px;
+	line-height:1.5em;
+	color:#000000;
+	background: #765782;
+}
+
+#jukebox_body{
+	width:330px;
+	min-height:400px;
+	background:#b3cffc;
+	overflow:auto;
+	margin:20px auto;
+	border-radius:10px;
+	box-shadow:0 10px 8px -8px #333;
+}
+
+#music-info{
+	text-align:center;
+}
+
+#music-info .name{
+	font-weight:bold;
+}
+
+#controls{
+	width:90%;
+	display:block;
+	margin:15px auto;
+	margin-left:23px;
+	overflow:auto;
+}
+
+button#play{
+	width:70px;
+	height:70px;
+	background:url(../images/play.png) no-repeat;
+	float:left;
+	margin-left:-2px;
+}
+
+button#pause{
+	width:70px;
+	height:70px;
+	background:url(../images/pause.png) no-repeat;
+	float:left;
+	margin-left:-2px;
+}
+
+button#previous{
+	width:70px;
+	height:70px;
+	background:url(../images/previous.png) no-repeat;
+	float:left;
+	margin-top:15px;
+}
+
+button#next{
+	width:70px;
+	height:70px;
+	background:url(../images/next.png) no-repeat;
+	float:right;
+	margin-top:15px;
+}
+
+button#shuffle{
+	width:70px;
+	height:70px;
+	background:url(../images/shuffle.png) no-repeat;
+	float:left;
+	margin-left:3px;
+}
+
+#songlist{
+	list-style:none;
+}
+#songlist li{
+	cursor:pointer;
+	margin:5px;
+}
+#songlist li.active{
+	font-weight:bold;
+	padding:3px;
+	background:#78b6ed;
+}
