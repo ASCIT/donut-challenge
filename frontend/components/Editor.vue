@@ -11,7 +11,13 @@
 		<div class='snippet-flex' v-if='snippets.length'>
 			<div class='tracklist'>
 				<md-list>
-					<md-list-item class='snippet-height'>&nbsp;</md-list-item> <!--for padding-->
+					<md-list-item class='snippet-height'>
+						<md-button class='md-icon-button' @click='togglePlaying'>
+							<md-icon>
+								{{ playing ? 'pause' : 'play_arrow' }}
+							</md-icon>
+						</md-button>
+					</md-list-item>
 					<md-list-item class='snippet-height' v-for='(snippet, index) in snippets' :key='snippet.name'>
 						{{ snippet.name }}
 						<md-spinner md-indeterminate :md-size='40' class='md-warn' v-if='snippet.end === UNKNOWN_END'></md-spinner>
@@ -34,11 +40,12 @@
 							{{ secondDiv * secondDiff }} s
 						</div>
 					</md-list-item>
-					<md-list-item class='snippet-height snippet' v-for='(snippet, index) in snippets' :key='snippet.name'>
+					<md-list-item class='snippet-height snippet' v-for='(snippet, index) in snippets' :key='snippet.id'>
 						<audio
 							:src='snippet.url'
 							preload='auto'
 							@loadedmetadata='loaded(snippet, $event)'
+							:ref='getAudioRef(snippet)'
 						>
 						</audio>
 						<div class='occupied' :style='{
@@ -94,16 +101,20 @@
 		snippetNumber = 1 //the number of snippets added so far, used to label them
 		pixelsPerSecond = DEFAULT_PIXELS_PER_SECOND
 		adjusting: Adjusting | null = null
+		playing = false
+		playingToken: object | null = null
 
 		addMusic({name, url}: Music) {
 			this.snippets.push({
-				name: name + ' ' + String(this.snippetNumber++),
+				id: this.snippetNumber,
+				name: name + ' ' + String(this.snippetNumber),
 				url,
 				length: UNKNOWN_END,
 				start: 0,
 				end: UNKNOWN_END,
 				offset: 0
 			})
+			this.snippetNumber++
 		}
 		deleteSnippet(index: number) {
 			this.snippets.splice(index, 1)
@@ -175,6 +186,43 @@
 		get secondDivs() {
 			if (this.endTime === UNKNOWN_END) return 0
 			return Math.ceil(this.endTime / this.secondDiff)
+		}
+		getAudioRef(snippet: Snippet) {
+			return 'audio' + String(snippet.id)
+		}
+		getPlayer(snippet: Snippet) {
+				const playerArray = this.$refs[this.getAudioRef(snippet)] as HTMLAudioElement | HTMLAudioElement[]
+				return playerArray instanceof Array ? playerArray[0] : playerArray
+		}
+		togglePlaying() {
+			this.playing = !this.playing
+			if (this.playing) { //now playing
+				const playingToken = {}
+				this.playingToken = playingToken
+				let completed = 0
+				const completedTarget = this.snippets.length
+				for (const snippet of this.snippets) {
+					const player = this.getPlayer(snippet)
+					const {start, end, offset} = snippet
+					player.currentTime = start
+					setTimeout(() => {
+						if (this.playingToken !== playingToken) return
+
+						player.play()
+						setTimeout(() => {
+							if (this.playingToken !== playingToken) return
+
+							player.pause()
+							completed++
+							if (completed === completedTarget) this.playing = false
+						}, (end - start) * 1000)
+					}, offset * 1000)
+				}
+			}
+			else { //now pausing
+				this.playingToken = null
+				for (const snippet of this.snippets) this.getPlayer(snippet).pause()
+			}
 		}
 	}
 </script>

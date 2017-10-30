@@ -4,6 +4,7 @@ export interface Music {
 }
 
 export interface Snippet {
+	id: number
 	url: string
 	name: string
 	length: number //seconds; length of underlying music
