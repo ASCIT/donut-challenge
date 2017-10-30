@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+	<title>Donut Challenge</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<link href="static/main_game.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<html>
+	<body>
+		<div class="intro" id="intro_donny">
+    		<h1>Meet Donny the dot. He wants to eat a donut.</h1>
+    		<p id="tut_step">(try moving around using arrow keys; press space to continue)</p>
+    		<p id="health">Health: <span id="health_num" style="color:red">3</span></p>
+    	</div>
+    	<div id="dimmer">
+    		<h1 style="color:white; font-size: 60px;">Game over!</h1>
+    		<a style="text-align: center; vertical-align: middle; line-height: 60px; font-size: 40px; color:white;" href="/">start over</a>
+    	</div> 
+
+    	<div id="gamewin">
+    		<h1 style="color:white; font-size: 60px;">Congratulations! Donny got all his donuts.</h1>
+    		<p style="color:white;">Since all good things come in threes, that's all the levels for now</p>
+    		<a style="text-align: center; vertical-align: middle; line-height: 60px; font-size: 40px; color:white;" href="/">start over</a>
+    	</div>
+    	<canvas id="canvas_donny"></canvas>
+    	
+	</body>
+	<script src="static/main.js"></script>
+</html>
