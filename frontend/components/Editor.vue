@@ -39,6 +39,7 @@
 						>
 							{{ secondDiv * secondDiff }} s
 						</div>
+						<div class='marker' v-if='playing' :style='{left: toPixels(timeSincePlaying)}'></div>
 					</md-list-item>
 					<md-list-item class='snippet-height snippet' v-for='(snippet, index) in snippets' :key='snippet.id'>
 						<audio
@@ -103,6 +104,7 @@
 		adjusting: Adjusting | null = null
 		playing = false
 		playingToken: object | null = null
+		timeSincePlaying = 0 //arbitrary value; will be set before being used
 
 		addMusic({name, url}: Music) {
 			this.snippets.push({
@@ -194,6 +196,12 @@
 				const playerArray = this.$refs[this.getAudioRef(snippet)] as HTMLAudioElement | HTMLAudioElement[]
 				return playerArray instanceof Array ? playerArray[0] : playerArray
 		}
+		updateTimeSincePlaying(start: Date, playingToken: object) {
+			if (!this.playing || this.playingToken !== playingToken) return
+
+			this.timeSincePlaying = (new Date().getTime() - start.getTime()) / 1000
+			setTimeout(() => this.updateTimeSincePlaying(start, playingToken), 10)
+		}
 		togglePlaying() {
 			this.playing = !this.playing
 			if (this.playing) { //now playing
@@ -218,6 +226,7 @@
 						}, (end - start) * 1000)
 					}, offset * 1000)
 				}
+				this.updateTimeSincePlaying(new Date, playingToken)
 			}
 			else { //now pausing
 				this.playingToken = null
@@ -246,6 +255,7 @@
 
 	div.second-mark
 		position: absolute
+		width: 50px
 
 	div.occupied
 		position: relative
@@ -259,10 +269,17 @@
 		width: 10%
 	div.adjustable.center
 		width: 80%
+
+	div.marker
+		position: absolute
+		width: 0
+		height: 20px
+		border: 2px solid black
 </style>
 
 <style lang='sass'>
 	.snippet .md-list-item-container
 		display: block
+		padding-left: 0
 		padding-right: 0
 </style>
