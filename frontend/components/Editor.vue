@@ -34,14 +34,18 @@
 							{{ secondDiv * secondDiff }} s
 						</div>
 					</md-list-item>
-					<md-list-item class='snippet-height' v-for='(snippet, index) in snippets' :key='snippet.name'>
+					<md-list-item class='snippet-height snippet' v-for='(snippet, index) in snippets' :key='snippet.name'>
 						<audio
 							:src='snippet.url'
 							preload='auto'
 							@loadedmetadata='loaded(snippet, $event)'
 						>
 						</audio>
-						<div class='occupied' :style='{left: toPixels(snippet.offset), width: toPixels(snippet.end - snippet.start)}'>
+						<div class='occupied' :style='{
+							left: toPixels(snippet.offset),
+							width: toPixels(snippet.end - snippet.start),
+							background: makeGradient(snippet)
+						}'>
 							<div class='adjustable end' @click='adjust(snippet, "start", $event)'></div>
 							<div class='adjustable center' @click='adjust(snippet, "offset", $event)'></div>
 							<div class='adjustable end' @click='adjust(snippet, "end", $event)'></div>
@@ -62,6 +66,16 @@
 	const ZOOM_FACTOR = 2
 	const DEFAULT_PIXELS_BETWEEN_MARKS = 100
 	const UNKNOWN_END = Infinity
+	type RGB = [number, number, number]
+	const COLOR_START: RGB = [244, 67, 54], COLOR_END: RGB = [3, 169, 244]
+
+	function blendFraction(fraction: number): string {
+		const result: RGB = [0, 0, 0]
+		for (let i = 0; i < result.length; i++) {
+			result[i] = Math.round(COLOR_END[i] * fraction + COLOR_START[i] * (1 - fraction))
+		}
+		return 'rgb(' + result.join(',') + ')'
+	}
 
 	type AdjustableAttribute = 'start' | 'end' | 'offset'
 	interface Adjusting {
@@ -97,6 +111,11 @@
 		loaded(snippet: Snippet, event: Event) {
 			snippet.end = snippet.length = (event.target as HTMLAudioElement).duration
 		}
+		makeGradient({start, end, length}: Snippet) {
+			const startColor = blendFraction(start / length)
+			const endColor = blendFraction(end / length)
+			return 'linear-gradient(to right, ' + startColor + ', ' + endColor + ')'
+		}
 		zoomIn() {
 			this.pixelsPerSecond *= ZOOM_FACTOR
 		}
@@ -125,6 +144,13 @@
 			switch (attribute) {
 				case 'start':
 					newValue = Math.min(Math.max(newValue, 0), snippet.end)
+					//When moving start, move offset too so end is fixed in place
+					const startChange = newValue - snippet.start
+					snippet.offset += startChange
+					if (snippet.offset < 0) { //don't allow snippet to start with negative offset
+						newValue -= snippet.offset
+						snippet.offset = 0
+					}
 					break
 				case 'end':
 					newValue = Math.min(Math.max(newValue, snippet.start), snippet.length)
@@ -175,14 +201,20 @@
 
 	div.occupied
 		position: relative
-		background: #ddd
+		top: 5px
 		height: 40px
 		display: flex
 
 	div.adjustable:hover
-		background: #999
+		background: #FFC107
 	div.adjustable.end
 		width: 10%
 	div.adjustable.center
 		width: 80%
+</style>
+
+<style lang='sass'>
+	.snippet .md-list-item-container
+		display: block
+		padding-right: 0
 </style>
