@@ -1,0 +1,82 @@
+import pydub
+
+pydub.AudioSegment.converter = "/usr/local/bin/ffmpeg"
+
+# Soundtracks
+
+AA = pydub.AudioSegment.from_mp3('Adventure Awaits.mp3')
+
+RR = pydub.AudioSegment.from_mp3('RR.mp3')
+
+FT = pydub.AudioSegment.from_mp3('Fantasy_Town.mp3')
+
+FB = pydub.AudioSegment.from_mp3('Fantasy Boss.mp3')
+
+# Sound Effects
+
+Attack = pydub.AudioSegment.from_mp3('Attack.mp3')
+
+Cheer = pydub.AudioSegment.from_mp3('Cheer.mp3')
+
+Damaged = pydub.AudioSegment.from_mp3('Damaged.mp3')
+
+def num_seconds(sec):
+    '''Returns the number of milliseconds.'''
+    return sec * 1000
+
+def beg_of_song(song, length):
+    length_in_milliseconds = num_seconds(length)
+    return song[:length_in_milliseconds]
+
+def end_of_song(song, length):
+    length_from_end = len(song)- num_seconds(length)
+    return song[length_from_end:]
+
+def add_crossfade(audio1, audio2, length_of_crossfade):
+    audio1 = audio1.append(audio2, crossfade = num_seconds(length_of_crossfade))
+    return audio1
+
+def add_fade(song, fade1, fade2):
+    song = song.fade_in(num_seconds(fade1)).fade_out(num_seconds(fade2))
+    return song
+
+def get_louder(song, num_dB):
+    song += num_dB
+    return song
+
+def create_silence(time):
+    return pydub.AudioSegment.silent(duration = num_seconds(time))
+
+def make_playlist(list_songs):
+    playlist = pydub.AudioSegment.empty()
+    for song in list_songs:
+        playlist += song
+    return playlist
+
+# Example
+
+AA_with_fade = add_fade(AA, 3, 3)
+
+Attack_repeats_louder = Attack[:]
+
+for i in list(range(2)):
+    Attack_repeats_louder += get_louder(Attack, 10)
+
+some_silence = create_silence(3)
+
+beg_FT = beg_of_song(FT, 12)
+end_FT = end_of_song(FT, 13)
+FT_with_crossfade = add_crossfade(beg_FT, end_FT, 5)
+
+beg_FB = beg_of_song(FB, 25)
+end_FB = end_of_song(FB, 27)
+FB_full = add_crossfade(beg_FB, end_FB, 5)
+FB_full_with_fade = add_fade(FB_full, 3, 3)
+
+list_songs = [Cheer, RR - 15, Attack_repeats_louder, AA_with_fade, Damaged 
+                  * 2, some_silence, Damaged * 2, some_silence, 
+                  FT_with_crossfade, Attack_repeats_louder, FB_full_with_fade]
+
+final = make_playlist(list_songs)
+
+final.export('Final Product.mp3', format = 'mp3')
