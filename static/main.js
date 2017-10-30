@@ -242,12 +242,12 @@ window.addEventListener('keydown', function(e) {
 function switchLevel(tutorial_step) {
 	switch (tutorial_step) {
 		case 1:
-			$('#tut_step').text("Tutorial: go over the donut to eat it (press space to continue)");
+			$('#tut_step').text("Level 1: go over the donut to eat it (press space to continue)");
 			donut = new Donut(canvas.width/2, canvas.height/2);
 			donut.draw();
 			break;
 		case 2: 
-			$('#tut_step').text("Level 1: avoid the obstacles! (press space after eating the donut to continue)");
+			$('#tut_step').text("Level 2: avoid the obstacles! (press space after eating the donut to continue)");
 			background_audio.pause();
 			background_audio.currentTime = 0;
 			background_audio.play();
@@ -255,7 +255,7 @@ function switchLevel(tutorial_step) {
 			drawObstacles();
 			break;
 		case 3:
-			$('#tut_step').text("Level 2: Defeat the boss! (press space after eating the donut to continue");
+			$('#tut_step').text("Level 3: Defeat the boss! (press space after eating the donut to continue");
 			console.log('boss level!');
 			background_audio.pause();
 			background_audio.currentTime = 0;

@@ -2,7 +2,7 @@
 (donut challenge)
 
 ### Instructions:
-To spin up the server type in terminal
+To spin up the server <code>cd</code> into this dir and run:
 ```
 virtualenv env
 source env/bin/activate
