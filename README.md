@@ -2,7 +2,15 @@
 
 ## Submission
 
-- Welcome to The Quest for the Mighty Donut, a dungeon crawler adventure in which you will fight dangerous foes, descend into the depths of the realm, and seek out the long lost treasure of the Mighty Donut!
+- Welcome to The Quest for the Mighty Donut, a dungeon crawler adventure in which you will fight dangerous foes, descend into the depths of the realm, and seek out the Mighty Donut to purge the bagel ghosts from within Donut's servers!
+
+## How to Play
+
+- Download this repository as a ZIP file, extract it, and open the index.html file in your favorite (modern) browser on a PC to play. Additional instructions are provided on-screen.
+
+---
+
+Below is the original text for the readme file regarding this competition:
 
 ## Goal
 - Design a fun, interactive experience that incorporates all the sounds in the ```music/``` folder.
