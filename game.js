@@ -135,7 +135,7 @@ function generateMap(canvas, player) {
 
     for (var i = 0; i < enemy_count; i ++)
     {
-        enemy_rooms.push(Math.floor((Math.random() * rooms)));
+        enemy_rooms.push(i);
     }
 
     enemy_rooms.sort();
@@ -148,11 +148,32 @@ function generateMap(canvas, player) {
         }
     }
 
+    var last_x = 0;
+    var last_y = 0;
     for (var i = 0; i < rooms; i ++)
     {
-        room_size = Math.floor((Math.random() * 5 + 4));
-        start_x = Math.floor((Math.random() * (width - room_size)));
-        start_y = Math.floor((Math.random() * (height - room_size)));
+        var room_size = Math.floor((Math.random() * 5 + 4));
+        var start_x = 0;
+        var start_y = 0;
+        var offset = Math.floor((Math.random() * (room_size - 2)));
+
+        if (last_x - room_size - offset >= 0 && last_x + offset + room_size < width)
+        {
+            start_x = last_x - offset;
+        }
+        else if (last_x - offset - room_size < 0 && last_x + offset + room_size < width)
+        {
+            start_x = last_x + offset;
+        }
+
+        if (last_y - offset - room_size >= 0 && last_y + offset + room_size < height)
+        {
+            start_y = last_y - offset;
+        }
+        else if (last_y - offset - room_size < 0 && last_y + offset + room_size < height)
+        {
+            start_y = last_y + offset;
+        }
 
         for (var y = start_y; y < start_y + room_size; y ++)
         {
@@ -199,7 +220,18 @@ function generateMap(canvas, player) {
             door_pos_y = start_y + Math.floor((Math.random() * room_size));
             map[door_pos_x + door_pos_y * width].tile_image = 4;           
         }
+
+        last_x = start_x;
+        last_y = start_y;
     }
+
+    map.forEach(function(tile)
+    {
+       if (tile.walkable == false && map[tile.x + tile.y * width])
+       {
+
+       } 
+    });
 
     return [map, player, enemies];
 };
