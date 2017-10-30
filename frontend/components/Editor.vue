@@ -70,6 +70,7 @@
 	import Component from 'vue-class-component'
 	import {Music, Snippet} from '../music-types'
 
+	const ESCAPE = 27 //ASCII character code
 	const DEFAULT_PIXELS_PER_SECOND = 100
 	const ZOOM_FACTOR = 2
 	const DEFAULT_PIXELS_BETWEEN_MARKS = 100
@@ -105,6 +106,18 @@
 		playing = false
 		playingToken: object | null = null
 		timeSincePlaying = 0 //arbitrary value; will be set before being used
+
+		mounted() {
+			window.addEventListener('keydown', e => {
+				if (e.keyCode === ESCAPE) {
+					if (this.adjusting === null) return
+					const {snippet, attribute, initialValue} = this.adjusting
+					if (attribute === 'start') snippet.offset -= snippet.start - initialValue //undo offset change too
+					;(snippet as any)[attribute] = initialValue
+					this.adjusting = null
+				}
+			})
+		}
 
 		addMusic({name, url}: Music) {
 			this.snippets.push({
