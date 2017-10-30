@@ -5,6 +5,7 @@
 npm i
 export NODE_ENV=production
 npm run build
+npm run compile
 server/start.js
 ````
 
