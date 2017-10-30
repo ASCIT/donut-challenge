@@ -1,0 +1,198 @@
+#navigation {
+  list-style-type: none;
+  overflow: hidden;
+  width: 50%;
+  margin: auto;
+  vertical-align: middle;
+}
+
+#navigation li {
+   float: left;
+   padding-top: 10px;
+}
+
+#navigation li a {
+   color: #000000;
+   text-align: center;
+   padding: 16px;
+   padding-left: 45px;
+   padding-right: 45px;
+     margin: 0 auto;
+   text-decoration: none;
+}
+
+#backgroundImg {
+    background: url(background.jpg);
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: -2;
+    }
+
+/* --------- HOME HTML --------- */
+#charImg{
+  padding-left: 30px;
+  padding-top: 30px;
+  float:left;
+}
+
+#stats{
+  list-style-type: none;
+  padding-left: 560px;
+  padding-top: 80px;
+}
+
+#stats li {
+   padding-top: 20px;
+}
+
+#stats li a {
+   text-align: center;
+   padding: 16px;
+   text-decoration: none;
+}
+
+#inventoryIndex{
+    text-align: center;
+    padding-top: 10px;
+    float: left;
+}
+
+/* --------- HOME HTML --------- */
+/* --------- FIGHTING HTML --------- */
+#playerHpInfo {
+  list-style-type: none;
+
+}
+
+#MonsterHpInfo {
+  list-style-type: none;
+
+}
+
+#playerFighting{
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+
+#monsterFighting{
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+#fightingContent {
+  list-style-type: none;
+  padding: 16px;
+  text-align: center;
+}
+
+#loading{
+  display: block;
+  margin: auto;
+}
+#monsterImg{
+
+  padding-right: 0px;
+  padding-top: 30px;
+  float:right;
+}
+#charFImg{
+
+  padding-left: 0px;
+  padding-top: 30px;
+  float:right;
+}
+#menu {
+  width: 50%;
+  margin: auto;
+}
+/* --------- FIGHTING HTML --------- */
+/* --------- TOWN HTML --------- */
+
+#marketContainer{
+  /*position:absolute;*/
+  width: 1000px;
+  height: 650px;
+}
+#mapImg{
+  position:absolute;
+  z-index: 0;
+}
+#treeImg{
+  position:absolute;
+  padding-left: 660px;
+  padding-top: 0px;
+  z-index: 1;
+
+}
+
+#marketImg{
+  position:absolute;
+  padding-top: 480px;
+  padding-left: 100px;
+  z-index: 1;
+}
+/* --------- TOWN HTML --------- */
+/* --------- MARKET HTML --------- */
+.scrollable {
+    height: 100px;
+    overflow-y: auto;
+}
+
+
+#merchImgCont{
+  position: absolute;
+}
+
+#merchantImg{
+  float:left;
+}
+
+#buyingTable{
+  text-align: center;
+  width: 20%;
+  margin: auto;
+  padding-top: 80px;
+}
+#inventory{
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+#inventoryTable{
+    display: inline-block;
+}
+
+#marketTable{
+    display: inline-block;
+}
+
+#goldInfo{
+  padding: 20px;
+  padding-left: 280px;
+}
+/* --------- MARKET HTML --------- */
+.sliding {
+    display: inline-block;
+    position: relative;
+}
+.sliding:after {
+    content: '';
+    display: block;
+    margin: auto;
+    height: 2px;
+    width: 0px;
+    background: transparent;
+    transition: width .4s ease, background-color .5s ease;
+}
+.sliding:hover:after {
+    width: 100%;
+    background: black;
+}
