@@ -135,44 +135,44 @@ function generateMap(canvas, player) {
 
     for (var i = 0; i < enemy_count; i ++)
     {
-        enemy_rooms.push(i);
+        enemy_rooms.push(i); //Make an enemy per room up to the total.
     }
-
-    enemy_rooms.sort();
 
     for (var y = 0; y < height; y ++)
     {
         for (var x = 0; x < width; x ++)
         {
+	    //Put in all of the basic tiles.
             map.push(new Tile(x, y, 0, false, false, false));
         }
     }
 
-    var last_x = 0;
-    var last_y = 0;
+    var last_x = 0; //Keep track of the prior room's left x.
+    var last_y = 0; //Keep track of the prior room's top y.
     for (var i = 0; i < rooms; i ++)
     {
-        var room_size = Math.floor((Math.random() * 5 + 4));
+        var room_size = Math.floor((Math.random() * 5 + 4)); //Choose a random room size from 4x4 to 8x8.
         var start_x = 0;
         var start_y = 0;
+	//Position the new room relative to the old one.
         var offset = Math.floor((Math.random() * (room_size - 2)));
 
         if (last_x - room_size - offset >= 0 && last_x + offset + room_size < width)
         {
-            start_x = last_x - offset;
+            start_x = last_x - offset; //If the room can be positioned left of the old room.
         }
         else if (last_x - offset - room_size < 0 && last_x + offset + room_size < width)
         {
-            start_x = last_x + offset;
+            start_x = last_x + offset; //If the room can't be positioned left of the old room.
         }
 
         if (last_y - offset - room_size >= 0 && last_y + offset + room_size < height)
         {
-            start_y = last_y - offset;
+            start_y = last_y - offset; //If the room can be positioned above the old room.
         }
         else if (last_y - offset - room_size < 0 && last_y + offset + room_size < height)
         {
-            start_y = last_y + offset;
+            start_y = last_y + offset; //If the room can be positioned below the old room.
         }
 
         for (var y = start_y; y < start_y + room_size; y ++)
@@ -180,7 +180,7 @@ function generateMap(canvas, player) {
             for (var x = start_x; x < start_x + room_size; x ++)
             {
                 is_trap = Math.floor((Math.random() * (3 * room_size)));
-                if (is_trap == 0)
+                if (is_trap == 0) //There's 1/(3 * room_size) chance of any tile being a trap.
                 {
                     map[x + y * width].tile_image = 2;
                     map[x + y * width].trap = 1;
@@ -194,7 +194,7 @@ function generateMap(canvas, player) {
             }
         }
         
-        if (i == enemy_rooms[enemy_index])
+        if (i == enemy_rooms[enemy_index]) //If there's an enemy to be generated, add it.
         {
             enemy_pos_x = start_x + Math.floor((Math.random() * room_size));
             enemy_pos_y = start_y + Math.floor((Math.random() * room_size));
@@ -202,19 +202,19 @@ function generateMap(canvas, player) {
             enemy_index += 1;
         }
         
-        if (i == player_room)
+        if (i == player_room) //If the player is supposed to be here, put them in a random pos.
         {
             player.x = start_x + Math.floor((Math.random() * room_size));
             player.y = start_y + Math.floor((Math.random() * room_size));
         }
 
-        if (i == rooms - 1 && player.level < MAX_LEVEL)
+        if (i == rooms - 1 && player.level < MAX_LEVEL) //If there should be a door, put it in a room.
         {
             door_pos_x = start_x + Math.floor((Math.random() * room_size));
             door_pos_y = start_y + Math.floor((Math.random() * room_size));
             map[door_pos_x + door_pos_y * width].tile_image = 3;
         }
-        else if (i == rooms - 1 && player.level == MAX_LEVEL)
+        else if (i == rooms - 1 && player.level == MAX_LEVEL) //Else place the donut there.
         {
             door_pos_x = start_x + Math.floor((Math.random() * room_size));
             door_pos_y = start_y + Math.floor((Math.random() * room_size));
@@ -224,15 +224,7 @@ function generateMap(canvas, player) {
         last_x = start_x;
         last_y = start_y;
     }
-
-    map.forEach(function(tile)
-    {
-       if (tile.walkable == false && map[tile.x + tile.y * width])
-       {
-
-       } 
-    });
-
+	
     return [map, player, enemies];
 };
 
@@ -288,38 +280,38 @@ function printMap(map, canvas, player, enemies) {
 	{
         if (tile.tile_image == 0)
         {
-            context.fillStyle = "#16B1B5";
+            context.fillStyle = "#16B1B5"; //Walls are teal-ish.
             context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
         }
         else if (tile.tile_image == 1)
         {
-            context.fillStyle = "#343434";
+            context.fillStyle = "#343434"; //The floor is grey.
             context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
         }
         else if (tile.tile_image == 2 && tile.trap == 1)
         {
-            context.fillStyle = "#343434";
+            context.fillStyle = "#343434"; //Traps are grey until activated.
             context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
         }
         else if (tile.tile_image == 2 && tile.trap == 2)
         {
-            context.fillStyle = "#F16133";
+            context.fillStyle = "#F16133"; //Then traps become red.
             context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
         }
         else if (tile.tile_image == 3)
         {
-            context.fillStyle = "#FABC09";
+            context.fillStyle = "#FABC09"; //The door is yellow.
             context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
         }
         else if (tile.tile_image == 4)
         {
-            context.fillStyle = "#FF85AA";
+            context.fillStyle = "#FF85AA"; //The donut is pink. Bright pink.
             context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
         }
 
         if (player.x == tile.x && player.y == tile.y)
         {
-            context.fillStyle = "#7435BD";
+            context.fillStyle = "#7435BD"; //The player is a purplish color.
             context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
         }
 
@@ -327,7 +319,7 @@ function printMap(map, canvas, player, enemies) {
         {
             if (enemy.health > 0 && enemy.x == tile.x && enemy.y == tile.y)
             {
-                context.fillStyle = "#B07D5C";
+                context.fillStyle = "#B07D5C"; //Enemies are brown, as bagels should be.
                 context.fillRect(tile.x * 32, tile.y * 32, canvas.width, canvas.height);
             }
             /*else if (enemy.health <= 0 && enemy.x == tile.x && enemy.y == tile.y)
@@ -356,8 +348,8 @@ function moveEnemies(map, canvas, player, dir, enemies){
     {
         if (player.x == enemy.x && player.y == enemy.y && enemy.health > 0)
         {
-            var damage_to_enemy = 1 + Math.floor((Math.random() * 3));
-            var damage_to_player = 1 + Math.floor((Math.random() * 3));
+            var damage_to_enemy = 1 + Math.floor((Math.random() * 3)); //Pray to the RNG gods.
+            var damage_to_player = 1 + Math.floor((Math.random() * 3)); //Twice.
             enemy.health -= damage_to_enemy;
             player.health -= damage_to_player;
             updateMessage("You took " + damage_to_player + " damage and dealt " + damage_to_enemy + " damage!");
@@ -405,6 +397,7 @@ function moveEnemies(map, canvas, player, dir, enemies){
         else if (enemy.health > 0)
         {
             var move_to_player = Math.floor((Math.random() * 2));
+            //The following are long conditionals, but necessary to avoid collisions.
             if (move_to_player == 0)
             {
                 if (enemy.x + 1 != player.x && enemy.y != player.y && enemy.x < player.x && map[(enemy.x + 1) + enemy.y * columns].walkable == true)
