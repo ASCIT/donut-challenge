@@ -19,7 +19,7 @@
 						</md-button>
 					</md-list-item>
 					<md-list-item class='snippet-height' v-for='(snippet, index) in snippets' :key='snippet.name'>
-						{{ snippet.name }}
+						<span @click='editName(snippet)'>{{ snippet.name }}</span>
 						<md-spinner md-indeterminate :md-size='40' class='md-warn' v-if='snippet.end === UNKNOWN_END'></md-spinner>
 						<md-button class='md-icon-button' @click='deleteSnippet(index)'>
 							<md-icon>delete</md-icon>
@@ -30,7 +30,7 @@
 			<div class='snippets' @click='endAdjusting' @mousemove='mousemove'>
 				<md-list>
 					<md-list-item class='snippet-height'>
-						&nbsp;
+						&nbsp; <!--included because empty list item throws errors-->
 						<div
 							class='second-mark'
 							v-for='secondDiv in secondDivs'
@@ -245,6 +245,9 @@
 				this.playingToken = null
 				for (const snippet of this.snippets) this.getPlayer(snippet).pause()
 			}
+		}
+		editName(snippet: Snippet) {
+			snippet.name = prompt('New name', snippet.name) || snippet.name
 		}
 	}
 </script>
