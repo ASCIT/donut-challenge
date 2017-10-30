@@ -8,7 +8,7 @@ To spin up the server <code>cd</code> into this dir and run:
 ```
 virtualenv env
 source env/bin/activate
-pip -r install requirements.txt
+pip install -r requirements.txt
 python app.py
 ```
 
