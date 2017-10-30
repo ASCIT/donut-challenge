@@ -1,0 +1,9 @@
+READ ME!!!
+in terminal:
+
+FLASK_APP='masterGame.py'
+python3 masterGame.py
+
+Enjoy!
+
+-Ziyan

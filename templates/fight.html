@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <title>Random RPG Town</title>
+  <link rel="stylesheet" href={{ url_for('static', filename='indexStyle.css')}}>
+
+  <!--Fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Raleway"
+        rel="stylesheet">
+</head>
+
+<body>
+  <img src={{ url_for('static', filename='background.jpg')}} id="backgroundImg">
+  <!-- <audio id = 'audio' autoplay loop>-->
+  <audio id = 'audio' autoplay loop>
+      <source id = 'audioSRC' src={{ url_for('static', filename='music/fantasy_boss.mp3')}} hidden="true">
+  </audio>
+
+  <audio id = 'attackFX'>
+      <source id = 'audioSRC' src={{ url_for('static', filename='music/attack.mp3')}} hidden="true">
+  </audio>
+
+
+  <audio id = 'damageFX'>
+      <source id = 'audioSRC' src={{ url_for('static', filename='music/damaged.mp3')}} hidden="true">
+  </audio>
+
+  <audio id = 'LostFX'>
+      <source id = 'audioSRC' src={{ url_for('static', filename='music/respectfully_resigned.wav')}} hidden="true">
+  </audio>
+
+  <audio id = 'CheerFX'>
+      <source id = 'audioSRC' src={{ url_for('static', filename='music/cheer.mp3')}} hidden="true">
+  </audio>
+
+  <div id="navigation">
+    <li><a href="index.html" class = "sliding">Character Stats</a></li>
+    <li><a href="town.html" class = "sliding">Town</a></li>
+    <li><a href="fight.html" class = "sliding">Fight!</a></li>
+  </div>
+
+  <img src={{ url_for('static', filename='loading.gif')}}  id="loading" width="auto" height="auto">
+
+  <div id = 'fightingContent' hidden = 'true'>
+    <div id = 'playerFighting'>
+      <div id = 'playerImg'>
+          <img src={{ url_for('static', filename='person.gif')}} id='charFImg' width = 300>
+      </div>
+      <div id='playerHpInfo'>
+        <li><span>Name: </span>
+        <span id="name">---</span></li>
+        <li><span>Health: </span>
+        <span id="playerHealth">100/100</span></li>
+        <li><span>Potions: </span>
+        <span id="potions">0</span></li>
+      </div>
+    </div>
+    <div id = 'monsterFighting'>
+      <div id='monsterImg'>
+        <img src={{ url_for('static', filename='wonderingBoy.gif')}} hidden = true id='wonderingBoy' width = 300>
+        <img src={{ url_for('static', filename='demon.gif')}} hidden = true  id='demon' width = 300>
+        <img src={{ url_for('static', filename='bandit.gif')}} hidden = true  id='bandit' width = 300>
+        <img src={{ url_for('static', filename='merchant.png')}} hidden = true  id='shopkeeper' width = 300>
+      </div>
+      <div id='MonsterHpInfo'>
+        <li><span>Name: </span>
+        <span id="monsterName">Monster</span></li>
+        <li><span>Health: </span>
+        <span id="monsterHealth">100/100</span></li>
+      </div>
+    </div>
+    <div id="menu">
+      <li><button id="attack" >Attack</button></li>
+      <li><button id="potion" >Use Potion</button></li>
+      <!--<li><button id="run" >Run!!</button></li>-->
+    </div>
+  </div>
+  <script src={{ url_for('static', filename='fight.js')}} type="text/javascript"></script>
+</body>
+
+<script type="text/javascript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
+<script type="text/javascript">
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+{% block body %}{% endblock %}

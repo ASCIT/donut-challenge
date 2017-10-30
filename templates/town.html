@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+  <title>Random RPG Town</title>
+  <link rel="stylesheet" href={{ url_for('static', filename='indexStyle.css')}}>
+
+  <!--Fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Raleway"
+        rel="stylesheet">
+</head>
+
+<body>
+    <img src={{ url_for('static', filename='background.jpg')}} id="backgroundImg">
+  <audio autoplay loop>
+    <source src={{ url_for('static', filename='music/fantasy_town.mp3')}} hidden="true">
+  </audio>
+
+  <div id="navigation">
+    <li><a href="index.html" class = "sliding">Character Stats</a></li>
+    <li><a href="town.html" class = "sliding">Town</a></li>
+    <li><a href="fight.html" class = "sliding">Fight!</a></li>
+  </div>
+
+  <div id = 'marketContainer'>
+    <a href="fight.html">
+      <img src={{ url_for('static', filename='tree.png')}} id="treeImg" width="200" height="auto">
+    </a>
+    <a href="market.html">
+      <img src={{ url_for('static', filename='market.png')}} id="marketImg" width="50" height="auto">
+    </a>
+    <img src={{ url_for('static', filename='map.png')}} id="mapImg" width="770" height="auto">
+  </div>
+</body>

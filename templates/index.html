@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <title>Random RPG</title>
+  <link rel="stylesheet" href={{ url_for('static', filename='indexStyle.css')}}>
+
+  <!--Fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Raleway"
+        rel="stylesheet">
+</head>
+
+<body>
+  <img src={{ url_for('static', filename='background.jpg')}} id="backgroundImg">
+  <a href="market.html" class = "sliding"hidden="true"></a>
+  <audio autoplay loop>
+      <source src= {{ url_for('static', filename='music/adventure_awaits.mp3')}} hidden="true">
+  </audio>
+  <div id="navigation">
+    <li><a href="index.html" class = "sliding">Character Stats</a></li>
+    <li><a href="town.html" class = "sliding">Town</a></li>
+    <li><a href="fight.html" class = "sliding">Fight!</a></li>
+  </div>
+
+  <div id = 'characterImage'>
+    <img src={{ url_for('static', filename='person.gif')}} id='charImg' width = 500>
+  </div>
+  <div id = 'stats'>
+    <li><span>Name: </span>
+    <span id="name">Hero</span></li>
+    <li><span>Health: </span>
+    <span id="health">100/100</span></li>
+    <li><span>Attack: </span>
+    <span id="attack">10</span></li>
+    <li><span>Defense: </span>
+    <span id="defense">10</span></li>
+    <li><span>Gold: </span>
+    <span id="gold">0</span></li>
+    <li><span>Potions: </span>
+    <span id="potions">0</span></li>
+    <li><span>Monsters defeated: </span>
+    <span id="kills">0</span></li>
+  </div>
+  <div id = 'inventoryIndex'>
+    <table id = 'inventoryTable' class = 'scrollable'>
+      <tr>
+        <th>Item Name</th>
+        <th>   </th>
+      </tr>
+    </table>
+  </div>
+  <script src={{ url_for('static', filename='handler.js')}} type="text/javascript"></script>
+</body>
+<script type="text/javascript"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
+<script type="text/javascript">
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+{% block body %}{% endblock %}
