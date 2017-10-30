@@ -1,33 +1,21 @@
-# The Donut Challenge
+# Donny the Dot game
+(donut challenge)
 
-## Goal
-- Design a fun, interactive experience that incorporates all the sounds in the ```music/``` folder.
-- Just remember to respect the Honor Code, and not just copy and paste code.
+Original repo (with commit history and such): https://github.com/kushaltirumala/flask_music_player
 
-## Requirements
-- Use every sound in the ```music/``` folder.
-- Engage the user with an exciting web experience (or mobile if you have experience with that)
-- You may use a modern Javascript framework like React.js, or have clean vanilla JS.
-- Be able to explain every design choice from module layout to code organization.
-- If you're not comfortable with web development, feel free to use C++, Java, Python, or whatever you're comfortable with.
+### Instructions:
+To spin up the server <code>cd</code> into this dir and run:
+```
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+python app.py
+```
 
-## Bonus points
-- Building a backend with Python Flask specifically
-- Great Design / UI / UX
-- Having clean modular code that shows an understanding of closures and functional programming
 
-## Submission
-- Fork this repo, and send a merge request only when you're ready for us to take a look!
-- You have two weeks to build an amazing product. Good luck!
+### NOTE:
+I realize I didn't use python flask as it should be used as a backend, mostly because halfway through creating the game I decided I didn't need a backend and just created a simple front-end game. But since flask was already part of my project, I didn't bother to take it out.
 
-## Need Inspiration?
-- Try making a jukebox with the different soundtracks!
 
-## Music notes
-- Feel free to add or change music as long as you have at least 4 soundtracks and 3 sound effects.
-  - Delete any unused music files.
-- Soundtracks were taken from http://www.indiegamemusic.com/
-  - Please check that site for details on purchasing licenses to use the music.
-  - I tried to name the file after its composed name if it has an owner.
-- Sound effects were taken from http://www.flashkit.com/soundfx/
-  - I believe the ones I chose were Freeware, but it's always good to check before using in a production setting!
+### Things to fix:
+- Weird OSError: broken pipe that doesn't affect the game, and doesn't happen for any given reason (I didn't know how to fix it).
