@@ -1,0 +1,91 @@
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    text-align: center;
+    font-family: 'VT323', monospace;
+    background-color: #343434;
+}
+
+footer {
+    padding-top: 5px;
+    transform: scale(1, .7);
+    position: relative;
+    display: inline-block;
+    bottom: 5;
+    left: 15;
+    color: #FFF;
+}
+
+h1 {
+    font-size: 60px;
+    font-weight: 400;
+    transform: scale(1, .9);
+    color: #FFF;
+    margin-bottom: 10px;
+}
+
+h1 img {
+    image-rendering: pixelated;
+    width: 42px;
+}
+
+h2 {
+    margin: 10px;
+    color: #FFF;
+}
+
+h3 {
+    font-size: 24px;
+    font-weight: 300;
+    color: #16B1B5;
+    transform: scale(1, .9);
+    margin-top: 0px;
+    margin-bottom: 6px;
+}
+
+h4 {
+    font-size: 18px;
+    line-height: 2px;
+    font-weight: 300;
+    transform: scale(1, .9);
+    color: #FFF;
+}
+
+p {
+    font-size: 16px;
+    transform: scale(1, .9);
+    margin: 0px;
+}
+
+#gameFrame {
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: #16B1B5;
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#info {
+    background-color: #343434;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    border-color: #16B1B5;
+    width: 200px;
+    height: 480px;
+    display: inline-block;
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#info p {
+    display: block;
+    text-align: justify;
+    color: #FFF;
+}
