@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<md-toolbar>
-			<h2 class='md-title app-title'>BarageGand</h2>
+			<h2 class='md-title app-title'>BarrageGand</h2>
 			<md-button class='md-icon-button' @click='showMusics'>
 				<md-icon>add</md-icon>
 			</md-button>
