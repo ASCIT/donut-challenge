@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jukebox</title>    
+  </head>
+  <body>
+    <header>
+      <h1> Select the song and press [Select] to load. Then press play on the music player to play </h1>
+    </header> 
+     
+    <div class="container">
+      <button id="sel" onclick="loadAud()"> Select </button>
+      
+      <select id="ls">
+        <option value="adventure_awaits.mp3"> Adventure Awaits </option>
+        <option value="attack.mp3"> Attack</option>
+        <option value="cheer.mp3"> Cheer </option>
+        <option value="damaged.mp3"> Damaged </option>
+        <option value="fantasy_boss.mp3"> Fantasy Boss </option>
+        <option value="fantasy_town.mp3"> Fantasy Town </option>
+        <option value="respectfully_resigned.wav"> Respectfully Resigned </option>
+      </select>
+
+      <audio id = "aud" controls>
+        <source id="audioSource" src="/static/music/adventure_awaits.mp3" type="audio/mpeg"></source>
+      </audio>
+
+    </div>
+     <script>
+       function loadAud() {
+       var ls = document.getElementById("ls");
+       var fl = ls.options[ls.selectedIndex].value;
+       document.getElementById("audioSource").src = "/static/music/" + fl
+       document.getElementById("aud").load()
+       }
+     </script>
+  </body>
+</html>
