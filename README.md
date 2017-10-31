@@ -1,5 +1,17 @@
 # The Donut Challenge
 
+## Submission
+
+- Welcome to The Quest for the Mighty Donut, a dungeon crawler adventure in which you will fight dangerous foes, descend into the depths of the realm, and seek out the Mighty Donut to purge the bagel ghosts from within Donut's servers!
+
+## How to Play
+
+- Download this repository as a ZIP file, extract it, and open the index.html file in your favorite (modern) browser on a PC to play. Additional instructions are provided on-screen.
+
+---
+
+Below is the original text for the readme file regarding this competition:
+
 ## Goal
 - Design a fun, interactive experience that incorporates all the sounds in the ```music/``` folder.
 - Just remember to respect the Honor Code, and not just copy and paste code.
@@ -19,9 +31,6 @@
 ## Submission
 - Fork this repo, and send a merge request only when you're ready for us to take a look!
 - You have two weeks to build an amazing product. Good luck!
-
-## Need Inspiration?
-- Try making a jukebox with the different soundtracks!
 
 ## Music notes
 - Feel free to add or change music as long as you have at least 4 soundtracks and 3 sound effects.

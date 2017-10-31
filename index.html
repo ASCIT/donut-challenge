@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>The Quest for the Mighty Donut</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=VT323">
+        <link rel="icon" href="./icon.ico"/>
+    </head>
+    
+    <body>
+        <h1>The Quest for the Mighty Donut <img src="./icon.ico"/></h1>
+        <h3 id="messages">You have entered the code.</h3>
+        <canvas id="gameFrame"></canvas>
+        <audio id="music" src="./music/fantasy_boss.mp3" autoplay="true"></audio>
+        
+        <div id="info">
+            <h2>Stats:</h2>
+            <h4 id="health">Health: 6/6</h4>
+            <h4 id="level">Level: 1/42</h4>
+            <h4 id="kills">Ghosts Busted: 0</h4>
+
+            <h2>Instructions:</h2>
+            <p id="instructions"><a style="color: #B07D5C; display: inline;">Bagel ghosts</a> have 
+            infested the Donut servers! It's up to you to fight or dash your way through the depths of (a 
+            fun and entirely inaccurate display of) the backend code to find the <a style="color: #FF85AA; 
+            display: inline;">Mighty Donut</a> &dash; the one donut to purge them all! Use the arrow keys to 
+            move. When activated <a style="color: #F16133; display: inline;">traps</a> will deal 2 damage. 
+            You can attack <a style="color: #B07D5C; display: inline;">bagel ghosts</a> by running into them, 
+            but watch your health when they attack back! You can recover health by walking. Get to the 
+            <a style="color: #FABC09; display: inline;">door</a> to descend towards level 42!</p>
+        </div>
+        
+        <footer>
+            Copyright &copy; Logan Apple 2017
+        </footer>
+    </body>
+
+    <script type="text/javascript" src="game.js"></script>
+</html>
