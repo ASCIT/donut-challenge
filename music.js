@@ -30,7 +30,6 @@ $(function() {
   b7.style.backgroundColor = "#DB7093";
 
   b1.addEventListener("dblclick", function( event ) {
-
       if (s1.paused) {
       b1.style.backgroundColor = "#FE6464";
       s1.play();
@@ -38,10 +37,7 @@ $(function() {
       b1.style.backgroundColor = "rgb(220,20,60)";
       s1.pause();
     }
-
   }, false);
-
-
   b2.addEventListener("dblclick",function(){
     if (s2.paused) {
       b2.style.backgroundColor = "#FEAB58";
@@ -51,7 +47,6 @@ $(function() {
       s2.pause();
     }
   }, false);
-
   b3.addEventListener("dblclick",function(){
     if (s3.paused) {
       b3.style.backgroundColor = "#F0E68C";
@@ -61,7 +56,6 @@ $(function() {
       s3.pause();
     }
   }, false);
-
   b4.addEventListener("dblclick",function(){
     if (s4.paused) {
       b4.style.backgroundColor = "#90EE90";
@@ -98,16 +92,6 @@ $(function() {
       s7.pause();
     }
   }, false);
-
-  function togglePlay(myAudio) {
-    if (myAudio.paused) {
-      myAudio.play();
-    }
-    else {
-      myAudio.pause();
-    }
-  };
-
 
   interact('.resize-drag')
   .draggable({
