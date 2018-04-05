@@ -8,7 +8,6 @@ $(function() {
   for (var i = 0; i < 6; i++) {
     sounds[i] = new Audio("music/" + soundNames[i] + ".mp3");
   }
-  //sounds[0].play();
   sounds[6] = new Audio("music/respectfully_resigned.wav");
 
   for (var i = 0; i < 7; i++) {
@@ -16,20 +15,8 @@ $(function() {
     sounds[i].volume = 2500/22500;
     blocks[i] = document.getElementById(soundNames[i]);
     blocks[i].style.backgroundColor = pausedColors[i];
-
-}
-/*
-blocks[0].addEventListener("dblclick", function( event ) {
-
-  if (sounds[0].paused) {
-    blocks[0].style.backgroundColor = playColors[0];
-    sounds[0].play();
-  } else {
-    blocks[0].style.backgroundColor = pausedColors[0];
-    sounds[0].pause();
+    blocks[i].addEventListener("dblclick", togglePlay(i));
   }
-}, false);
-*/
 
   function togglePlay(i) {
     return function() {
@@ -41,10 +28,6 @@ blocks[0].addEventListener("dblclick", function( event ) {
         sounds[i].pause();
       }
     }
-  }
-
-  for (var i = 0; i < 7; i++) {
-    blocks[i].addEventListener("dblclick", togglePlay(i));
   }
 
   interact('.resize-drag')
@@ -65,7 +48,6 @@ blocks[0].addEventListener("dblclick", function( event ) {
       endOnly: true,
     },
 
-    // minimum size
     restrictSize: {
       min: { width: 50, height: 50 },
       max: { width: 150, height: 150 },
