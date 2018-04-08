@@ -17,7 +17,6 @@ var jump = 0;
 var player;
 var soldier;
 var coord;
-var building1;
 var counter = 0;
 var x;
 //sprites
@@ -49,9 +48,16 @@ var poopCount = 0;
 var magma = [];
 var magmacount;
 //Music
-var playmusic0 = true;
-var audio0 = new Audio('sounds/vocalise.mp3');
-var audio1 = new Audio('sounds/themesong1.mp3');
+var playmusic = true;
+var audio0 = new Audio('music/adventure_awaits.mp3');
+var audio1 = new Audio('music/attack.mp3');
+var audio2 = new Audio('music/cheer.mp3');
+var audio3 = new Audio('music/damaged.mp3');
+var audio4 = new Audio('music/fantasy_boss.mp3');
+var audio5 = new Audio('music/fantasy_town.mp3');
+var audio6 = new Audio('music/respectfully_resigned.wav');
+var audio = audio0;
+audio.loop = true;
 //Score
 var time;
 
@@ -68,7 +74,7 @@ function initialize() {
             slope: 0
         };
     }
-    
+
     for (var i = 0; i < 10; i++) {
         poop[i] = {
             x: 0,
@@ -80,7 +86,7 @@ function initialize() {
             slope: 0
         };
     }
-    
+
 
     player = {
         x: 0,
@@ -95,6 +101,7 @@ function initialize() {
         frameOrder: [0, 1, 2, 1, 0, 3, 4, 3],
         framenumber: 8,
         hit: false,
+        hp: 100,
         alive: true
     },
     soldier = {
@@ -108,7 +115,8 @@ function initialize() {
         counter: 0,
         currentFrame: 0,
         frameOrder: [3, 2, 1, 2, 3, 4, 5, 4, 3, 9, 10, 13],
-        framenumber: 12 //to be changed
+        framenumber: 12, //to be changed
+        status: false
     };
 
     flybird = new Animation(player, 6);
@@ -127,13 +135,6 @@ function initialize() {
         y: 0,
         speed: 1
     },
-    building1 = {
-        x: canvas.width * 4 / 5,
-        y: 418 * canvas.height / 971,
-        width: 25 * canvas.width / 1920,
-        height: 200 * canvas.height / 971,
-        hp: 500
-    };
 
     //the hills
     backgroundImg1 = new Image();
@@ -178,20 +179,22 @@ function drawFasterSpanningBackground() {
 }
 
 function start() {
-    audio0.pause();
     loadgame();
     animate();
-    if (playmusic0) {
-        audio1.play();
+    audio.pause();
+    audio = audio5;
+    if (playmusic) {
+        audio.play();
     }
     $('#score').html('Score: 0');
+    $('#hplabel').css("visibility", "visible");
 }
 
 //Gravity and friction values
 var gravity = 0,
         friction = 0.99;
 
-//Loads game by fading out the homepage 
+//Loads game by fading out the homepage
 function loadgame() {
     $('#loadingpage').fadeOut('slow');
     $('#header').fadeOut('slow');
@@ -221,9 +224,10 @@ function animate() {
     //function that sets the limits of the player
     setBounds();
     context.clearRect(0, 0, canvas.width, canvas.height);
-    if (!initialCondition)
+    if (soldier.status) {
         towerShoot++;
-    if (towerShoot % 40 === 1 && building1.hp > 0) {
+    }
+    if (towerShoot % 40 === 1) {
         shoot();
     }
     soldierSwitch++;
@@ -262,8 +266,10 @@ function update() {
     player.y += player.velY;
 
     //updating soldier position
-    soldier.x += soldier.velX;
-    soldier.y += soldier.velY;
+    if (soldier.status) {
+      soldier.x += soldier.velX;
+      soldier.y += soldier.velY;
+    }
 
     //updating bullet position
     for (var i = 0; i < blt.length; i++) {
@@ -278,6 +284,11 @@ function update() {
 }
 
 function gameover() {
+    audio.pause();
+    if (playmusic)  {
+      audio = audio6;
+      audio.play();
+    }
     player.height = 0;
     player.width = 0;
     player.alive = false;
@@ -286,8 +297,27 @@ function gameover() {
 }
 
 function updateScore() {
-    if (player.alive)
-        time += 16;
+    if (player.alive) {
+        time += 6;
+        if (time !== 0 && time%12000 === 0)  {
+            audio2.load();
+            audio2.play();
+        }
+        if (time !== 0 && time%6000 == 0) {
+          if (soldier.status) {
+            soldier.status = false;
+            audio.pause();
+            audio = audio5;
+            audio.play();
+          }
+          else {
+            soldier.status = true;
+            audio.pause();
+            audio = audio4;
+            audio.play();
+          }
+        }
+    }
     $("#score").html("Score: " + time);
 }
 
@@ -332,7 +362,6 @@ function drawMagma() {
 
 //function to shoot bullets
 function shoot() {
-
     if (bltCount === 25)
         bltCount = 0;
     if (Math.abs(player.velX) < 1.8 || player.x + player.width > soldier.x - 1)
@@ -352,6 +381,9 @@ function shoot() {
     if (player.x + player.width === soldier.x)
         blt[bltCount].velY += 0.15;
     bltCount++;
+    if (player.alive && playmusic)  {
+        audio1.play();
+    }
 }
 //draws the bullets
 function drawBlt() {
@@ -459,7 +491,25 @@ function setBounds() {
             for (var j = player.x; j <= player.x + player.width; j += 2)
                 for (var k = player.y; k <= player.y + player.height; k += 2)
                     if (Math.pow(j - blt[i].x, 2) + Math.pow(k - blt[i].y, 2) <= Math.pow(blt[i].radius, 2)) {
-                        gameover();
+                        player.hp -= 25;
+                        player.velX += blt[i].velX;
+                        player.velY += blt[i].velY;
+                        blt[i].radius = 0;
+                        audio3.play();
+                        $('#bar').css("width", player.hp + "%");
+                        $('#bar').css("visibility", "visible");
+                        if (player.hp == 75)  {
+                          $('#bar').css("background", "yellow");
+                        }
+                        if(player.hp == 50) {
+                          $('#bar').css("background", "orange");
+                        }
+                        if(player.hp == 25) {
+                          $('#bar').css("background", "red");
+                        }
+                        if (player.hp <= 0)  {
+                          gameover();
+                        }
                     }
     }
 }
@@ -543,6 +593,9 @@ rock.prototype = {
             if (this.opacity <= 0.01) {
                 this.opacity = 0;
             }
+            if (this.radius <= 4) {
+              this.radius = 0;
+            }
         }
         if (this.radius < 1) {
             this.died = false;
@@ -574,4 +627,3 @@ rock.prototype = {
         }
     }
 };
-

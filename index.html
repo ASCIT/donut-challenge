@@ -4,7 +4,7 @@
     <head>
         <title>Rain of Fire</title>
         <link href="css/index.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="js/jquery-1.11.3.min.js"></script>
     </head>
 
@@ -30,6 +30,11 @@
             <button id="restartbutton" onClick="window.location.reload();"><i class="fa fa-refresh fa-3x"></i></button>
         </div>
         <div id="score"></div>
+        <div id="hplabel">
+          <div id = "barcontainer">
+            <div id = "bar"></div>
+          </div>
+        </div>
 
         <script src="threejs/three.min.js"></script>
         <script src="threejs/projector.js"></script>
@@ -41,12 +46,12 @@
         <script>
                 $('#toggleMusic').click(function () {
                     $('#toggleMusic').toggleClass('dimify');
-                    playmusic0 = !playmusic0;
-                    if (playmusic0) {
-                        audio0.play();
+                    playmusic = !playmusic;
+                    if (playmusic) {
+                        audio.play();
                     }
                     else {
-                        audio0.pause();
+                        audio.pause();
                     }
                 });
         </script>
