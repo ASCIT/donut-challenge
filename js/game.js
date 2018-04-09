@@ -299,7 +299,7 @@ function gameover() {
 function updateScore() {
     if (player.alive) {
         time += 6;
-        if (time !== 0 && time%12000 === 0)  {
+        if (time !== 0 && time%12000 === 0 && playmusic)  {
             audio2.load();
             audio2.play();
         }
@@ -499,7 +499,9 @@ function setBounds() {
                         player.velX += blt[i].velX;
                         player.velY += blt[i].velY;
                         blt[i].radius = 0;
-                        audio3.play();
+                        if (playmusic)  {
+                          audio3.play();
+                        }
                         $('#bar').css("width", player.hp + "%");
                         $('#bar').css("visibility", "visible");
                         if (player.hp == 75)  {
