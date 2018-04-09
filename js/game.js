@@ -306,15 +306,19 @@ function updateScore() {
         if (time !== 0 && time%6000 == 0) {
           if (soldier.status) {
             soldier.status = false;
-            audio.pause();
-            audio = audio5;
-            audio.play();
+            if (playmusic)  {
+              audio.pause();
+              audio = audio5;
+              audio.play();
+            }
           }
           else {
             soldier.status = true;
-            audio.pause();
-            audio = audio4;
-            audio.play();
+            if (playmusic)  {
+              audio.pause();
+              audio = audio4;
+              audio.play();
+            }
           }
         }
     }
