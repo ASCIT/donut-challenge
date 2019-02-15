@@ -1,0 +1,24 @@
+#song-picker {
+    margin-top: 2vh;
+    width: 30vw;
+    height: 60vh;
+    overflow: auto;
+}
+#song-picker li {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5vh;
+}
+#song-picker li i.fas {
+    cursor: pointer;
+}
+#main {
+    display: flex;
+    justify-content: space-evenly;
+}
+#record {
+    padding-top: 2vh;
+}
+#record-form {
+    padding-top: 2vh;
+}
